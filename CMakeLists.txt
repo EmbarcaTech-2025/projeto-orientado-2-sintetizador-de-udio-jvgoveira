@@ -56,14 +56,15 @@ target_link_libraries(synth_audio
 target_include_directories(synth_audio PRIVATE
         ${CMAKE_CURRENT_LIST_DIR}
         ${CMAKE_CURRENT_LIST_DIR}/include
-)
+        )
 
 # Add any user requested libraries
 target_link_libraries(synth_audio 
         hardware_adc
         hardware_dma
         hardware_pwm
-)
+        hardware_timer
+        )
 
 pico_add_extra_outputs(synth_audio)
 
