@@ -176,7 +176,7 @@ void grava_audio(void)
   gpio_put(LED_RED_PIN, 1);
 
   uint16_t prev = 0;
-  float alpha = 0.1f; // Constante do filtro passa-baixa
+  float alpha = 0.8f; // Constante do filtro passa-baixa
 
   for (int i = 0; i < MAX_SAMPLES; i++) 
   {
@@ -216,13 +216,33 @@ void reproduz_audio(void)
   gpio_put(LED_GREEN_PIN, 0);
 }
 
-// Filtro passa-baixa simples
+
+ /*! ---------------------------------------------------------------------------
+ *  @brief  Filtro passa-baixa simples
+ *
+ *  @param current_sample amostra atual
+ *  @param prev_sample  amostra prevista
+ *  @param alpha  constante de aplicacao do filtro
+ * 
+ *  @return Retorna o valor apos o processo de filtragem do sinal
+ * 
+ ----------------------------------------------------------------------------*/
 uint16_t low_pass_filter(uint16_t current_sample, uint16_t prev_sample, float alpha)
 {
     return (uint16_t)(alpha * current_sample + (1.0f - alpha) * prev_sample);
 }
 
 // Normalização de volume
+ /*! ---------------------------------------------------------------------------
+ *  @brief  Filtro passa-baixa simples
+ *
+ *  @param buffer ponteiro para o buffer de dados
+ *  @param prev_sample  amostra prevista
+ *  @param alpha  constante de aplicacao do filtro
+ * 
+ *  @return Retorna o valor apos o processo de filtragem do sinal
+ * 
+ ----------------------------------------------------------------------------*/
 void normalize_audio(uint16_t *buffer, int len)
 {
     uint16_t max_val = 0;
@@ -235,7 +255,7 @@ void normalize_audio(uint16_t *buffer, int len)
 
     for (int i = 0; i < len; i++) 
     {
-        buffer[i] = (buffer[i] * 1023) / max_val; // Escala para 12 bits
+        buffer[i] = (buffer[i] * 1023) / max_val; // Escala para 10 bits
     }
 }
 
